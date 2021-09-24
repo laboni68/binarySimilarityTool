@@ -23,5 +23,5 @@ We know that for checking the equivalence, the variables need to be mapped prope
 		<br />
     **python runLogialSummary.py constraints_1.txt constraints_2.txt**
     <br />
-We can put your constraints in those text files and run the program “runLogialSummary.py” without giving any binary files also. But we have to keep in mind that the text files names must follow the same naming format. Otherwise, it will result in errors.
+We can put our constraints in those text files and run the program “runLogialSummary.py” without giving any binary files also. But we have to keep in mind that the text files names must follow the same naming format. Otherwise, it will result in errors.
 
