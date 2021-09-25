@@ -19,7 +19,7 @@
   finalRun.py <br />
   print equivalent or not equivalent on the basis of the result in the last line
 <br />
-We know that for checking the equivalence, the variables need to be mapped properly. If two variables in the different program are having the same functionality but they are defined by different symbolic variables they will result in non-equivalence. All the constraints are saved <constraints_1.txt> and <constraints_2.txt> files in raw form from the binary files that we want to compare. If we change the variable names manually in those text files, then the command for checking equivalence would be :
+We know that for checking the equivalence, the variables need to be mapped properly. If two variables in the different program are having the same functionality but they are defined by different symbolic variables they will result in non-equivalence. All the constraints are saved in <constraints_1.txt> and <constraints_2.txt> files in raw form from the binary files that we want to compare. If we change the variable names manually in those text files, then the command for checking equivalence would be :
 		<br />
     **python runLogialSummary.py constraints_1.txt constraints_2.txt**
     <br />
