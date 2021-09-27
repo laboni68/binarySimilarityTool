@@ -22,7 +22,7 @@ def initialization():
         #print("file ",i+1," : ",files_[i])
         print("file ", files_[i])
         result = "constraints_"+str(i+1)
-        command2 = "python logicalSummary.py " +files_[i]+" "+result
+        command2 = "python findSummary.py " +files_[i]+" "+result
         print(command2)
         os.system(command2)
 
@@ -109,15 +109,15 @@ def declareSymbol(symbols_):
     return d
 
 initialization()
-print("===========================")
+#print("===========================")
 symbols_ = set()
 list_1_f = open("constraints_1.txt", "r")
 list_2_f = open("constraints_2.txt", "r")
 outerS_1_and = makeConstraint(list_1_f)
-print(outerS_1_and)
+#print(outerS_1_and)
 outerS_2_and = makeConstraint(list_2_f)
-print(outerS_2_and)
-print("===========================")
+#print(outerS_2_and)
+#print("===========================")
 k = 0
 for val in symbols_:
     print(val)
@@ -125,10 +125,10 @@ for val in symbols_:
     k=k+1
     outerS_1_and = outerS_1_and.replace(val,symbol)
     outerS_2_and = outerS_2_and.replace(val,symbol)
-print(outerS_1_and)
-print(outerS_2_and)
+#print(outerS_1_and)
+#print(outerS_2_and)
 declaration = declareSymbol(symbols_)
-print("====================")
+#print("====================")
 finalS_ = makeConstraintWithNot(
             makeConstraintWithOr(
                 makeConstraintWithAnd(
@@ -143,7 +143,7 @@ finalS_ = makeConstraintWithNot(
                 )
                 )
                 )
-print(finalS_)
+#print(finalS_)
 f = open("finalRun.py","w")
 f.write("import claripy\n")
 f.write(declaration)
