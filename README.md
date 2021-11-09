@@ -1,34 +1,13 @@
 # binarySimilarityTool
-**testSource Folder :** Contains all the source code for tested programs.<br />
-**testBinary Folder :** Contains all the binary corresponding to the source files present in the testBinary Folder.
-<br />
-<br />
-**Pre-requisite for running :**
-                <br />python
-                <br />angr
-                <br /><br />
-**Running the script file:**
-1. workon angr
-2. pip install claripy (if angr can not find any module to run pip install that module will install that particular module)
-3. python runLogialSummary.py <binary1> <binary2> 
-<br />[2nd command is one time run only, for repeated use of the tool 1st and 3rd command will suffice]
-
-**Output:** <br />
-	constraints_1.txt <br />
-  constraints_2.txt <br />
-  finalRun.py <br />
-  print equivalent or not equivalent on the basis of the result in the last line
-<br />
-We know that for checking the equivalence, the variables need to be mapped properly. If two variables in the different program are having the same functionality but they are defined by different symbolic variables they will result in non-equivalence. All the constraints are saved in <constraints_1.txt> and <constraints_2.txt> files in raw form from the binary files that we want to compare. If we change the variable names manually in those text files, then the command for checking equivalence would be :
-		<br />
-    **python runLogialSummary.py constraints_1.txt constraints_2.txt**
-    <br />
-We can put our constraints in those text files and run the program “runLogialSummary.py” without giving any binary files also. But we have to keep in mind that the text files names must follow the same naming format. Otherwise, it will result in errors.
-
 **Branch PartialSE:** Runs on nano editor and the processed version of the nano_editor
 **Command:**
 1. python runLogicalSummary.py nano nano_processed <technique_name>
+<br />
 **Technique Names:**
 1. dfs
 2. memWatch
 3. loopSeer
+
+<br />
+Partially checked equivalence with 10000 steps for both the programs. The step size in angr means the number of blocks checked for collecting the path constraints using symbolic execution. Another thing to note that, we do not consider the return value in this partial symbolic execution equivalence checking. Only on the basis of input constraints, they are shown as equivalent using method summary. 
+Moreover, different techniques are used for collecting the path constraints from the programs partially. Depth First Search (dfs) , Memory Watcher (memWatch), loopSeering (loopSeer) are the names of the different techniques we can use for doing the partial symbolic execution and all the techniques confirmed the equivalence in the input constraint upto 10000 blocks.
