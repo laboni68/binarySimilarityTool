@@ -2,29 +2,29 @@
 #!/usr/bin/python
 import os
 import sys
+import claripy
 
 
-def initialization():
-    print(str(sys.argv))
-    list_ = sys.argv
-    files_ = []
-    text_file_flag =0
-    for i in range(len(sys.argv)):
-        if i==0:
-            continue
-        if(len(list_[i].split("."))==2):
-            text_file_flag = 1
-        files_.append(list_[i])
-    print(len(files_))
-    if(text_file_flag==1):
-        return
-    for i in range(len(files_)):
-        #print("file ",i+1," : ",files_[i])
-        print("file ", files_[i])
-        result = "constraints_"+str(i+1)
-        command2 = "python logicalSummary.py " +files_[i]+" "+result
-        print(command2)
-        os.system(command2)
+
+print(str(sys.argv))
+#list_ = sys.argv
+files_ = sys.argv
+total = len(sys.argv)
+# for i in range(1,total-1):
+#     files_.append(list_[i])
+print(len(files_))
+for i in range(1,total-1):
+    #print("file ",i+1," : ",files_[i])
+    print("file ", files_[i])
+    result = "constraints_3_"+str(i)
+    command2 = "python logicalSummary.py " +files_[i]+" "+result+" "+files_[total-1]
+    print(command2)
+    os.system(command2)
+
+
+# command2 = "python scriptWithTwo.py " +files_[0]
+# print(command2)
+# os.system(command2)
 
 def makeList(list_f):
     list_ = list_f.read()
@@ -44,16 +44,20 @@ def makeList(list_f):
 def processConstraint(separated_):
     constraint = ""
     length = len(separated_)
-    print(separated_)
+    #print(separated_)
+    #print("+++++++++++++")
     for i in range(1, length):
         separated_[i] = separated_[i]. rstrip("\n")
+        if(separated_[i]==">" or separated_[i]=="<"):
+            constraint =  constraint + separated_[i]
+            continue
         if(separated_[i].endswith("s")):
             separated_[i]=separated_[i].replace("s","")
         elif(separated_[i].endswith(">")):
             separated_[i]=separated_[i].replace(">","")
         constraint =  constraint + separated_[i]
         symbols_.add(separated_[1])
-        if(separated_[i].startswith("mem")):
+        if(separated_[i].startswith("mem") or separated_[i].startswith("syscall") ):
             symbols_.add(separated_[i])
     #print(constraint)
     return constraint
@@ -69,6 +73,8 @@ def makeConstraint(list_):
             outerS = outerS +","
         innerS = "claripy.And("
         list_[i][0] = list_[i][0].replace("(z_intle:32_10_32[7:0] .. z_intle:32_10_32[15:8] .. z_intle:32_10_32[23:16] .. z_intle:32_10_32[31:24])","z")
+        list_[i][0] = list_[i][0].replace("Bool True","Bool w == 1")
+        list_[i][0] = list_[i][0].replace("Bool False","Bool w == 0")
         separated = list_[i][0].split(" ")
         symbols_.add(separated[1])
         newC = processConstraint(separated)
@@ -78,6 +84,8 @@ def makeConstraint(list_):
             list_[i][j] = list_[i][j].replace("(z_intle:32_10_32[7:0] .. z_intle:32_10_32[15:8] .. z_intle:32_10_32[23:16] .. z_intle:32_10_32[31:24])","z")
             list_[i][j] = list_[i][j].replace("BV64 0x0 .. ","Bool z == ")
             list_[i][j] = list_[i][j].replace("BV32 ","Bool z == ")
+            list_[i][j] = list_[i][j].replace("Bool True","Bool w == 1")
+            list_[i][j] = list_[i][j].replace("Bool False","Bool w == 0")
             separated = list_[i][j].split(" ")
             #symbols_.add(separated[1])
             #print(separated)
@@ -86,6 +94,7 @@ def makeConstraint(list_):
         innerS = innerS +")"
         outerS = outerS + innerS
     outerS = outerS + ")"
+    outerS = outerS.replace("!","claripy.Not")
     return outerS
 
 def makeConstraintWithNot(constraint):
@@ -108,11 +117,10 @@ def declareSymbol(symbols_):
     print(d)
     return d
 
-initialization()
 print("===========================")
 symbols_ = set()
-list_1_f = open("constraints_1.txt", "r")
-list_2_f = open("constraints_2.txt", "r")
+list_1_f = open("constraints_3_1.txt", "r")
+list_2_f = open("constraints_3_2.txt", "r")
 outerS_1_and = makeConstraint(list_1_f)
 print(outerS_1_and)
 outerS_2_and = makeConstraint(list_2_f)
@@ -151,7 +159,7 @@ f.write("\n\np=")
 f.write(finalS_)
 f.write("\ns = claripy.Solver()")
 f.write("\ns.add(p)")
-#f.write("\nprint(s.satisfiable())")
+f.write("\nprint(s.satisfiable())")
 f.write("\nif(s.satisfiable()==False):")
 f.write("print(\"Equivalent\")")
 f.write("\nelse:")
@@ -163,3 +171,4 @@ print("==================RESULT=================")
 command = "python finalRun.py"
 #print(command)
 os.system(command)
+

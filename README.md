@@ -25,3 +25,10 @@ We know that for checking the equivalence, the variables need to be mapped prope
     <br />
 We can put our constraints in those text files and run the program “runLogialSummary.py” without giving any binary files also. But we have to keep in mind that the text files names must follow the same naming format. Otherwise, it will result in errors.
 
+**Branch PartialSE:** Runs on nano editor and the processed version of the nano_editor
+**Command:**
+1. python runLogicalSummary.py nano nano_processed <technique_name>
+**Technique Names:**
+1. dfs
+2. memWatch
+3. loopSeer

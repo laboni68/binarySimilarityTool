@@ -2,9 +2,11 @@ import claripy
 
 x0 = claripy.BVS("x0",64)
 x1 = claripy.BVS("x1",64)
+x2 = claripy.BVS("x2",64)
 
-p=claripy.Not(claripy.Or(claripy.And(claripy.Or(claripy.And(x1<=0x27,x0==0x1),claripy.And(x1>0x27,x1<=0x31,x0==0x2),claripy.And(x1>0x27,x1>0x31,x1>0x3b,x0==0x4),claripy.And(x1>0x27,x1>0x31,x1<=0x3b,x0==0x3)),claripy.Or(claripy.And(x1>0x3b,x0==0x4),claripy.And(x1<=0x3b,x1<=0x31,x1<=0x27,x0==0x1),claripy.And(x1<=0x3b,x1>0x31,x0==0x3),claripy.And(x1<=0x3b,x1<=0x31,x1>0x27,x0==0x2))),claripy.And(claripy.Not(claripy.Or(claripy.And(x1<=0x27,x0==0x1),claripy.And(x1>0x27,x1<=0x31,x0==0x2),claripy.And(x1>0x27,x1>0x31,x1>0x3b,x0==0x4),claripy.And(x1>0x27,x1>0x31,x1<=0x3b,x0==0x3))),claripy.Not(claripy.Or(claripy.And(x1>0x3b,x0==0x4),claripy.And(x1<=0x3b,x1<=0x31,x1<=0x27,x0==0x1),claripy.And(x1<=0x3b,x1>0x31,x0==0x3),claripy.And(x1<=0x3b,x1<=0x31,x1>0x27,x0==0x2))))))
+p=claripy.Not(claripy.Or(claripy.And(claripy.Or(claripy.And(x1<=0xfffffffffffff000,x0==1),claripy.And(claripy.Not(x1<=0xfffffffffffff000),x0==1)),claripy.Or(claripy.And(x1<=0xfffffffffffff000,x0==1),claripy.And(claripy.Not(x1<=0xfffffffffffff000),x0==1))),claripy.And(claripy.Not(claripy.Or(claripy.And(x1<=0xfffffffffffff000,x0==1),claripy.And(claripy.Not(x1<=0xfffffffffffff000),x0==1))),claripy.Not(claripy.Or(claripy.And(x1<=0xfffffffffffff000,x0==1),claripy.And(claripy.Not(x1<=0xfffffffffffff000),x0==1))))))
 s = claripy.Solver()
 s.add(p)
+print(s.satisfiable())
 if(s.satisfiable()==False):print("Equivalent")
 else:print("Not equivalent")
