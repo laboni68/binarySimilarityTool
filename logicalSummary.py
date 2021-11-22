@@ -25,7 +25,7 @@ def runAndfind(binaryFile):
             list_list_1.append(list_)
     return list_list_1   
 
-def runAndfindNew(binaryFile, technique):
+def runAndfindNew(binaryFile, technique, steps):
     #print(technique)
     c = angr.Project(binaryFile, auto_load_libs = False)
     state = c.factory.entry_state()
@@ -39,7 +39,7 @@ def runAndfindNew(binaryFile, technique):
     elif(technique=="loopSeer"):
         print("loopSeer")
         sm.use_technique(angr.exploration_techniques.LoopSeer())
-    sm.run(n=10000)
+    sm.run(n=int(steps))
     print("deadended : ",len(sm.deadended))
     print("active : ",len(sm.active))
     print("pruned : ",len(sm.pruned))
@@ -90,9 +90,10 @@ print(str(sys.argv))
 listName_ = sys.argv
 fileName = listName_[1]
 techniqueName = listName_[3]
+steps = listName_[4]
 resultName = str(listName_[2])+".txt"
 print(fileName," ",resultName)
-list_list_1 = runAndfindNew(str(fileName), techniqueName)
+list_list_1 = runAndfindNew(str(fileName), techniqueName, steps)
 list_list = writeFile(list_list_1)
 f = open(resultName, "w")
 f.write(str(list_list))

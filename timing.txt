@@ -1,0 +1,45 @@
+
+=================dfs
+total time 249.82512721209787
+summary time 249.18182700010948
+equivalence time 0.643277405994013
+=================dfs
+total time 230.3864677241072
+summary time 229.863518205937
+equivalence time 0.5229294649325311
+=================memWatch
+total time 474.1783457410056
+summary time 473.56784588703886
+equivalence time 0.6104763390030712
+=================memWatch
+total time 473.38672929187305
+summary time 472.7533436999656
+equivalence time 0.6333591809961945
+=================loopSeer
+total time 628.7672278068494
+summary time 628.2792800778989
+equivalence time 0.4879278491716832
+=================loopSeer
+total time 598.0792619870044
+summary time 597.5881466579158
+equivalence time 0.49109313380904496
+=================dfs 20000
+total time 6.2859763209708035
+summary time 5.775109804002568
+equivalence time 0.510843857889995
+=================dfs 20000
+total time 5.969364552060142
+summary time 5.4548958849627525
+equivalence time 0.5144494660198689
+=================dfs 20000
+total time 406.64998578093946
+summary time 406.4604330828879
+equivalence time 0.18953020498156548
+=================dfs 20000
+total time 410.1663656218443
+summary time 409.93555665109307
+equivalence time 0.23078910703770816
+=================dfs 10000
+total time 207.29497852781788
+summary time 206.78714389377274
+equivalence time 0.5078165119048208

@@ -4,22 +4,22 @@ import os
 import sys
 import claripy
 
-
-
-print(str(sys.argv))
-#list_ = sys.argv
-files_ = sys.argv
-total = len(sys.argv)
-# for i in range(1,total-1):
-#     files_.append(list_[i])
-print(len(files_))
-for i in range(1,total-1):
-    #print("file ",i+1," : ",files_[i])
-    print("file ", files_[i])
-    result = "constraints_3_"+str(i)
-    command2 = "python logicalSummary.py " +files_[i]+" "+result+" "+files_[total-1]
-    print(command2)
-    os.system(command2)
+def initialization():
+    print(str(sys.argv))
+    #list_ = sys.argv
+    files_ = sys.argv
+    total = len(sys.argv)
+    # for i in range(1,total-1):
+    #     files_.append(list_[i])
+    print(len(files_))
+    for i in range(1,total-2):
+        #print("file ",i+1," : ",files_[i])
+        print("file ", files_[i])
+        result = "constraints_3_"+str(i)
+        command2 = "python logicalSummary.py " +files_[i]+" "+result+" "+files_[total-2]+" "+files_[total-1]
+        print(command2)
+        os.system(command2)
+        
 
 
 # command2 = "python scriptWithTwo.py " +files_[0]
@@ -117,10 +117,18 @@ def declareSymbol(symbols_):
     print(d)
     return d
 
-print("===========================")
-symbols_ = set()
+
+import time
 list_1_f = open("constraints_3_1.txt", "r")
 list_2_f = open("constraints_3_2.txt", "r")
+timing_info = open("timing.txt", "a")
+time_initial = time.perf_counter()
+time_summary_start = time.perf_counter()
+initialization()
+time_summary_end = time.perf_counter()
+time_equi_start = time.perf_counter()
+print("===========================")
+symbols_ = set()
 outerS_1_and = makeConstraint(list_1_f)
 print(outerS_1_and)
 outerS_2_and = makeConstraint(list_2_f)
@@ -171,4 +179,15 @@ print("==================RESULT=================")
 command = "python finalRun.py"
 #print(command)
 os.system(command)
-
+time_equi_end = time.perf_counter()
+time_end = time.perf_counter()
+timing_info.write("\n=================")
+timing_info.write(str(sys.argv[len(sys.argv)-2]))
+timing_info.write(" ")
+timing_info.write(str(sys.argv[len(sys.argv)-1]))
+timing_info.write("\ntotal time ")
+timing_info.write(str(time_end-time_initial))
+timing_info.write("\nsummary time ")
+timing_info.write(str(time_summary_end-time_summary_start))
+timing_info.write("\nequivalence time ")
+timing_info.write(str(time_equi_end-time_equi_start))
