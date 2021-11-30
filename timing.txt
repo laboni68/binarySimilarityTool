@@ -43,3 +43,7 @@ equivalence time 0.23078910703770816
 total time 207.29497852781788
 summary time 206.78714389377274
 equivalence time 0.5078165119048208
+=================nano_processed 5
+total time 3.2193524960894138
+summary time 2.719349096994847
+equivalence time 0.4999847130384296
