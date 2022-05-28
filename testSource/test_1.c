@@ -11,12 +11,5 @@ int main(){
 	{
 		return 2;
 	}
-	else if(y > 50 )
-	{
-		return 3;
-	}
-	
 	return 5;
 }
-
-

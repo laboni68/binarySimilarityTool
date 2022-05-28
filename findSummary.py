@@ -4,6 +4,7 @@ import sys
 def runAndfind(binaryFile):
     c = angr.Project(binaryFile, auto_load_libs = False)
     state = c.factory.entry_state()
+    #state = c.factory.call_state(0x400671)
     sm = c.factory.simulation_manager(state)
     sm.explore()
     print(len(sm.deadended))
