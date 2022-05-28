@@ -28,7 +28,13 @@ def runAndfind(binaryFile):
 def runAndfindNew(binaryFile, technique, steps):
     #print(technique)
     c = angr.Project(binaryFile, auto_load_libs = False)
+    #state = c.factory.call_state(0x418c4e)
+    #state = c.factory.call_state(0x400ce2)
+    #block = c.factory.block(0x4006e2)
+    #block.pp()
     state = c.factory.entry_state()
+    print(state)
+    #state.options.add(angr.options.CALLLESS)
     sm = c.factory.simulation_manager(state)
     if(technique=="dfs"):
         print("dfs")
@@ -39,7 +45,8 @@ def runAndfindNew(binaryFile, technique, steps):
     elif(technique=="loopSeer"):
         print("loopSeer")
         sm.use_technique(angr.exploration_techniques.LoopSeer())
-    sm.run(n=int(steps))
+    #sm.run(n=int(steps))
+    sm.explore()
     print("deadended : ",len(sm.deadended))
     print("active : ",len(sm.active))
     print("pruned : ",len(sm.pruned))
