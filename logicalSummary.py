@@ -4,14 +4,16 @@ import sys
 def runAndfind(binaryFile):
     c = angr.Project(binaryFile, auto_load_libs = False)
     #state = c.factory.call_state(0x400671) #This is for add and add_processed
-    #state = c.factory.call_state(0x418c4e)
+    #state = c.factory.call_state(0x40066a)
     state = c.factory.entry_state()
-    #state.add_constraints( state.regs.edi <=0x64)
+    #state.add_constraints( state.regs.edi ==0x9)
+    #state.add_constraints(state.regs.esi ==0x04)
+    #state.add_constraints(state.regs.edx ==0x03)
     #state.add_constraints(state.regs.esi <=0x64)
     #state.add_constraints(state.regs.edx <=0x64)
     #state.options.add(angr.options.CALLLESS)
     sm = c.factory.simulation_manager(state)
-    sm.run()
+    sm.explore()
     print(len(sm.deadended))
     list_list_1 = []
     if(len(sm.deadended)>0):
