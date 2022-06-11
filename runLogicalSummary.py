@@ -2,7 +2,7 @@
 #!/usr/bin/python
 import os
 import sys
-
+import time
 
 def initialization():
     print(str(sys.argv))
@@ -45,16 +45,22 @@ def processConstraint(separated_):
     constraint = ""
     length = len(separated_)
     print(separated_)
-    for i in range(1, length):
+    print("length", length)
+    for i in range(1, length-1):
         separated_[i] = separated_[i]. rstrip("\n")
         if(separated_[i].endswith("s")):
             separated_[i]=separated_[i].replace("s","")
-        elif(separated_[i].endswith(">")):
-            separated_[i]=separated_[i].replace(">","")
+        #elif(separated_[i].endswith(">")):
+         #   separated_[i]=separated_[i].replace(">","")
         constraint =  constraint + separated_[i]
         symbols_.add(separated_[1])
         if(separated_[i].startswith("mem")):
             symbols_.add(separated_[i])
+    separated_[length-1] = separated_[length-1]. rstrip("\n")
+    separated_[length-1]=separated_[length-1].replace(">","")
+    constraint =  constraint + separated_[length-1]
+    if(separated_[length-1].startswith("mem")):
+           symbols_.add(separated_[length-1])
     #print(constraint)
     return constraint
         
@@ -108,6 +114,7 @@ def declareSymbol(symbols_):
     print(d)
     return d
 
+start = time.time()
 initialization()
 print("===========================")
 symbols_ = set()
@@ -163,3 +170,6 @@ print("==================RESULT=================")
 command = "python finalRun.py"
 #print(command)
 os.system(command)
+
+end = time.time()
+print("time : \n", end-start)

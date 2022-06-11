@@ -3,13 +3,14 @@ import sys
 
 def runAndfind(binaryFile):
     c = angr.Project(binaryFile, auto_load_libs = False)
-    #state = c.factory.call_state(0x400671) #This is for add and add_processed
+    state = c.factory.call_state(0x400671) #This is for add and add_processed
     #state = c.factory.call_state(0x40066a)
-    state = c.factory.entry_state()
-    #state.add_constraints( state.regs.edi ==0x9)
-    #state.add_constraints(state.regs.esi ==0x4)
-    #state.add_constraints(state.regs.edx ==0x32)
-    #state.add_constraints(state.regs.edi ==0x9)
+    #state = c.factory.entry_state()
+    #state.add_constraints( state.regs.edi * state.regs.edi  == 0x9)
+    #state.add_constraints(state.regs.esi * state.regs.edx == 0x63)
+    #state.add_constraints(state.regs.edi ==0x2)
+    #state.add_constraints(state.regs.esi ==0x19)
+    #state.add_constraints(state.regs.edx ==0x5)
     #state.add_constraints(state.regs.esi ==0x63)
     #state.add_constraints(state.regs.edx ==0x63)
     #state.add_constraints(state.regs.edx <=0x64)
