@@ -2,6 +2,7 @@
 #!/usr/bin/python
 import os
 import sys
+import time
 
 def initialization():
     print(str(sys.argv))
@@ -131,7 +132,8 @@ def makeFileAndRun(c1,c2):
     l=f1.read()
     os.system("rm l.txt")
     return l
-    
+ 
+start = time.time()   
 initialization()
 symbols_ = set()
 
@@ -199,3 +201,5 @@ for con2 in final_list_2:
 f1.close()
 f2.close()
 f3.close()
+end = time.time() 
+print("time : ", end-start)
