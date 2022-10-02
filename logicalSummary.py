@@ -1,16 +1,18 @@
 import angr
 import sys
+import claripy
 
 def runAndfind(binaryFile):
     c = angr.Project(binaryFile, auto_load_libs = False)
-    state = c.factory.call_state(0x400671) #This is for add and add_processed
-    #state = c.factory.call_state(0x40066a)
+    #state = c.factory.call_state(0x400671) #This is for add and add_processed
+    state = c.factory.call_state(0x401189)
     #state = c.factory.entry_state()
     #state.add_constraints( state.regs.edi * state.regs.edi  == 0x9)
     #state.add_constraints(state.regs.esi * state.regs.edx == 0x63)
     #state.add_constraints(state.regs.edi ==0x2)
     #state.add_constraints(state.regs.esi ==0x19)
-    #state.add_constraints(state.regs.edx ==0x5)
+    #state.add_constraints(state.regs.edx ==0x3)
+    state.add_constraints(claripy.Or(state.regs.edx ==0x3, state.regs.edx ==0x2))
     #state.add_constraints(state.regs.esi ==0x63)
     #state.add_constraints(state.regs.edx ==0x63)
     #state.add_constraints(state.regs.edx <=0x64)
