@@ -1,6 +1,6 @@
-claripy.And(x1>0x63,x2<=0x18,x0==0x2)
-claripy.And(x1>0x63,x2<=0x32,x2>0x18,x0==0x5)
+<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} <=s 0x18 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x2>
+<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} >s 0x18 && mem_7fffffffffefdbc_4_32{UNINITIALIZED} <=s 0x32 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x5>
 =====================
-claripy.And(x1>0x63,x2<=0x18,x0==0x2)
-claripy.And(x1>0x63,x2>0x32,x0==0x3)
+<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} <=s 0x18 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x2>
+<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} >s 0x32 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x3>
 =====================
