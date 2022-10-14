@@ -28,17 +28,24 @@ def initialization():
         print(command2)
         os.system(command2)
 
-initialization()
-constraint_1 = []
-k = 0
-with open('constraints_1.pkl', 'rb') as fr:
-    try:
-        while True:
-            constraint_1.append(pickle.load(fr))
-            k=k+1
-    except EOFError:
-        pass
+#initialization()
+#constraint_1 = []
+infile = open('constraints_1.pkl','rb')
+constraint_1 = pickle.load(infile)
+infile.close()
+infile = open('constraints_2.pkl','rb')
+constraint_2 = pickle.load(infile)
+infile.close()
+# k = 0
+# with open('constraints_1.pkl', 'rb') as fr:
+#     try:
+#         while True:
+#             constraint_1.append(pickle.load(fr))
+#             k=k+1
+#     except EOFError:
+#         pass
 print("====================")
+print(type(constraint_1))
 print(constraint_1)
 # with open('constraints_1.pkl', 'rb') as f:
 #     constraints_1 = pickle.load(f)
@@ -46,40 +53,40 @@ print(constraint_1)
 #     constraints_2 = pickle.load(f1)
 # print(constraints_2)
 print("====================")
-constraint_2 = []
-k2 = 0
-with open('constraints_2.pkl', 'rb') as fr:
-    try:
-        while True:
-            constraint_2.append(pickle.load(fr))
-            k2=k2+1
-    except EOFError:
-        pass
+# constraint_2 = []
+# k2 = 0
+# with open('constraints_2.pkl', 'rb') as fr:
+#     try:
+#         while True:
+#             constraint_2.append(pickle.load(fr))
+#             k2=k2+1
+#     except EOFError:
+#         pass
 print("====================")
+print(type(constraint_2))
 print(constraint_2)
 print("====================")
-constraint_1_or = claripy.Or(False)
-for i in range(len(constraint_1)):
-    constraint_1_and = claripy.And(constraint_1[i][0],True)
-    for j in range(1,len(constraint_1[i])-1):
-        constraint_1_and = claripy.And(constraint_1_and,constraint_1[i][j])
-    constraint_1_or = claripy.Or(constraint_1_and, constraint_1_or)
-print(constraint_1_or)
-print("====================")
-constraint_2_or = claripy.Or(False)
-for i in range(len(constraint_2)):
-    constraint_2_and = claripy.And(constraint_2[i][0],True)
-    for j in range(1,len(constraint_2[i])-1):
-        constraint_2_and = claripy.And(constraint_2_and,constraint_2[i][j])
-    constraint_2_or = claripy.Or(constraint_2_and, constraint_2_or)
-print(constraint_2_or)
+# constraint_1_or = claripy.Or(False)
+# for i in range(len(constraint_1)):
+#     constraint_1_and = claripy.And(constraint_1[i][0],True)
+#     for j in range(1,len(constraint_1[i])-1):
+#         constraint_1_and = claripy.And(constraint_1_and,constraint_1[i][j])
+#     constraint_1_or = claripy.Or(constraint_1_and, constraint_1_or)
+# print(constraint_1_or)
+# print("====================")
+# constraint_2_or = claripy.Or(False)
+# for i in range(len(constraint_2)):
+#     constraint_2_and = claripy.And(constraint_2[i][0],True)
+#     for j in range(1,len(constraint_2[i])-1):
+#         constraint_2_and = claripy.And(constraint_2_and,constraint_2[i][j])
+#     constraint_2_or = claripy.Or(constraint_2_and, constraint_2_or)
+# print(constraint_2_or)
 
 
 
 
-final_constraint = claripy.Not(claripy.Or(claripy.And(constraint_1_or,constraint_2_or), claripy.And(claripy.Not(constraint_1_or),claripy.Not(constraint_2_or))))
-print(final_constraint)
+# final_constraint = claripy.Not(claripy.Or(claripy.And(constraint_1_or,constraint_2_or), claripy.And(claripy.Not(constraint_1_or),claripy.Not(constraint_2_or))))
+# print(final_constraint)
 solver = claripy.Solver()
-print(final_constraint)
-solver.add(final_constraint)
+solver.add(claripy.Not(claripy.Or(claripy.And(constraint_1, constraint_2), claripy.And(claripy.Not(constraint_1), claripy.Not(constraint_2)))))
 print(solver.satisfiable())

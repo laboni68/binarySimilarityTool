@@ -3,6 +3,8 @@
 import os
 import sys
 import time
+import pickle
+import claripy
 
 def initialization():
     print(str(sys.argv))
@@ -22,154 +24,178 @@ def initialization():
         #print("file ",i+1," : ",files_[i])
         print("file ", files_[i])
         result = "constraints_"+str(i+1)
-        command2 = "python logicalSummary.py " +files_[i]+" "+result
+        command2 = "python3.8 logicalSummary.py " +files_[i]+" "+result
         print(command2)
         os.system(command2)
+##=============START OF CODE FOR VARIABLE DECLARATION=======================
+# def makeList(list_f):
+#     list_ = list_f.read()
+#     #print(list_)
+#     final_list_1 = list_.split(",")
+#     final_list_1 = list(filter(None, final_list_1))
+#     #print(len(final_list_1))
 
-def makeList(list_f):
-    list_ = list_f.read()
-    #print(list_)
-    final_list_1 = list_.split(",")
-    final_list_1 = list(filter(None, final_list_1))
-    #print(len(final_list_1))
+#     final_list = []
+#     for i in range(len(final_list_1)):
+#         final_sub_list = final_list_1[i].split("#")
+#         final_sub_list = list(filter(None, final_sub_list))
+#         final_list.append(final_sub_list)
+#     #print(final_list)
+#     return final_list
 
-    final_list = []
-    for i in range(len(final_list_1)):
-        final_sub_list = final_list_1[i].split("#")
-        final_sub_list = list(filter(None, final_sub_list))
-        final_list.append(final_sub_list)
-    #print(final_list)
-    return final_list
-
-def processConstraint(separated_):
-    constraint = ""
-    length = len(separated_)
-    print(separated_)
-    print("length", length)
-    for i in range(1, length-1):
-        separated_[i] = separated_[i]. rstrip("\n")
-        if(separated_[i].endswith("s")):
-            separated_[i]=separated_[i].replace("s","")
-        #elif(separated_[i].endswith(">")):
-         #   separated_[i]=separated_[i].replace(">","")
-        constraint =  constraint + separated_[i]
-        symbols_.add(separated_[1])
-        if(separated_[i].startswith("mem")):
-            symbols_.add(separated_[i])
-    separated_[length-1] = separated_[length-1]. rstrip("\n")
-    separated_[length-1]=separated_[length-1].replace(">","")
-    constraint =  constraint + separated_[length-1]
-    if(separated_[length-1].startswith("mem")):
-           symbols_.add(separated_[length-1])
-    #print(constraint)
-    return constraint
+# def processConstraint(separated_):
+#     constraint = ""
+#     length = len(separated_)
+#     print(separated_)
+#     print("length", length)
+#     for i in range(1, length-1):
+#         separated_[i] = separated_[i]. rstrip("\n")
+#         if(separated_[i].endswith("s")):
+#             separated_[i]=separated_[i].replace("s","")
+#         #elif(separated_[i].endswith(">")):
+#          #   separated_[i]=separated_[i].replace(">","")
+#         constraint =  constraint + separated_[i]
+#         symbols_.add(separated_[1])
+#         if(separated_[i].startswith("mem")):
+#             symbols_.add(separated_[i])
+#     separated_[length-1] = separated_[length-1]. rstrip("\n")
+#     separated_[length-1]=separated_[length-1].replace(">","")
+#     constraint =  constraint + separated_[length-1]
+#     if(separated_[length-1].startswith("mem")):
+#            symbols_.add(separated_[length-1])
+#     #print(constraint)
+#     return constraint
         
 
-def makeConstraint(list_):
-    list_ = makeList(list_)
-    #print("===============++")
-    #print(list_)
-    outerS = "claripy.Or("
-    for i in range(len(list_)):
-        if(i!=0):
-            outerS = outerS +","
-        innerS = "claripy.And("
-        list_[i][0] = list_[i][0].replace("(z_intle:32_10_32[7:0] .. z_intle:32_10_32[15:8] .. z_intle:32_10_32[23:16] .. z_intle:32_10_32[31:24])","z")
-        separated = list_[i][0].split(" ")
-        symbols_.add(separated[1])
-        newC = processConstraint(separated)
-        innerS = innerS + newC
-        #print(separated)
-        for j in range(1,len(list_[i])):
-            list_[i][j] = list_[i][j].replace("(z_intle:32_10_32[7:0] .. z_intle:32_10_32[15:8] .. z_intle:32_10_32[23:16] .. z_intle:32_10_32[31:24])","z")
-            list_[i][j] = list_[i][j].replace("BV64 0x0 .. ","Bool z == ")
-            list_[i][j] = list_[i][j].replace("BV32 ","Bool z == ")
-            separated = list_[i][j].split(" ")
-            #symbols_.add(separated[1])
-            #print(separated)
-            newC = processConstraint(separated)
-            innerS = innerS + "," + newC
-        innerS = innerS +")"
-        outerS = outerS + innerS
-    outerS = outerS + ")"
-    return outerS
+# def makeConstraint(list_):
+#     #list_ = makeList(list_)
+#     #print("===============++")
+#     print(list_)
+#     outerS = "claripy.Or("
+#     for i in range(len(list_)):
+#         if(i!=0):
+#             outerS = outerS +","
+#         innerS = "claripy.And("
+#         list_[i][0] = list_[i][0].replace("(z_intle:32_10_32[7:0] .. z_intle:32_10_32[15:8] .. z_intle:32_10_32[23:16] .. z_intle:32_10_32[31:24])","z")
+#         separated = list_[i][0].split(" ")
+#         symbols_.add(separated[1])
+#         newC = processConstraint(separated)
+#         innerS = innerS + newC
+#         #print(separated)
+#         for j in range(1,len(list_[i])):
+#             list_[i][j] = list_[i][j].replace("(z_intle:32_10_32[7:0] .. z_intle:32_10_32[15:8] .. z_intle:32_10_32[23:16] .. z_intle:32_10_32[31:24])","z")
+#             list_[i][j] = list_[i][j].replace("BV64 0x0 .. ","Bool z == ")
+#             list_[i][j] = list_[i][j].replace("BV32 ","Bool z == ")
+#             separated = list_[i][j].split(" ")
+#             #symbols_.add(separated[1])
+#             #print(separated)
+#             newC = processConstraint(separated)
+#             innerS = innerS + "," + newC
+#         innerS = innerS +")"
+#         outerS = outerS + innerS
+#     outerS = outerS + ")"
+#     return outerS
 
-def makeConstraintWithNot(constraint):
-    outerS = "claripy.Not("+constraint+")"
-    return outerS
+# def makeConstraintWithNot(constraint):
+#     outerS = "claripy.Not("+constraint+")"
+#     return outerS
 
-def makeConstraintWithOr(constraint1,constraint2):
-    outerS = "claripy.Or("+constraint1+","+constraint2+")"
-    return outerS
-def makeConstraintWithAnd(constraint1,constraint2):
-    outerS = "claripy.And("+constraint1+","+constraint2+")"
-    return outerS
-def declareSymbol(symbols_):
-    d = ""
-    k = 0
-    for val in symbols_:
-        symbol = "x"+str(k)
-        d = d + "\n" + symbol+" = claripy.BVS("+ "\""+symbol+"\""+",64)"
-        k = k+1
-    print(d)
-    return d
-
+# def makeConstraintWithOr(constraint1,constraint2):
+#     outerS = "claripy.Or("+constraint1+","+constraint2+")"
+#     return outerS
+# def makeConstraintWithAnd(constraint1,constraint2):
+#     outerS = "claripy.And("+constraint1+","+constraint2+")"
+#     return outerS
+# def declareSymbol(symbols_):
+#     d = ""
+#     k = 0
+#     for val in symbols_:
+#         symbol = "x"+str(k)
+#         d = d + "\n" + symbol+" = claripy.BVS("+ "\""+symbol+"\""+",64)"
+#         k = k+1
+#     print(d)
+#     return d
+##=========================END OF PREVIOUS VARIABLE DECLARATION==========================
 start = time.time()
 initialization()
 print("===========================")
-symbols_ = set()
-list_1_f = open("constraints_1.txt", "r")
-list_2_f = open("constraints_2.txt", "r")
-outerS_1_and = makeConstraint(list_1_f)
-print(outerS_1_and)
-outerS_2_and = makeConstraint(list_2_f)
-print(outerS_2_and)
+infile = open('constraints_1.pkl','rb')
+constraint_1 = pickle.load(infile)
+infile.close()
+infile = open('constraints_2.pkl','rb')
+constraint_2 = pickle.load(infile)
+infile.close()
+print(constraint_1)
 print("===========================")
-k = 0
-for val in symbols_:
-    print(val)
-    symbol = "x"+str(k)
-    k=k+1
-    outerS_1_and = outerS_1_and.replace(val,symbol)
-    outerS_2_and = outerS_2_and.replace(val,symbol)
-print(outerS_1_and)
-print(outerS_2_and)
-declaration = declareSymbol(symbols_)
-print("====================")
-finalS_ = makeConstraintWithNot(
-            makeConstraintWithOr(
-                makeConstraintWithAnd(
-                    outerS_1_and
-                    ,
-                    outerS_2_and
-                ), 
-                makeConstraintWithAnd(
-                makeConstraintWithNot(outerS_1_and)
-                ,
-                makeConstraintWithNot(outerS_2_and)
-                )
-                )
-                )
-print(finalS_)
-f = open("finalRun.py","w")
-f.write("import claripy\n")
-f.write(declaration)
-f.write("\n\np=")
-f.write(finalS_)
-f.write("\ns = claripy.Solver()")
-f.write("\ns.add(p)")
-#f.write("\nprint(s.satisfiable())")
-f.write("\nif(s.satisfiable()==False):")
-f.write("print(\"Equivalent\")")
-f.write("\nelse:")
-f.write("print(\"Not equivalent\")")
-f.close()
+print(constraint_2)
+solver = claripy.Solver()
+solver.add(claripy.Not(claripy.Or(claripy.And(constraint_1, constraint_2), claripy.And(claripy.Not(constraint_1), claripy.Not(constraint_2)))))
+print(solver.satisfiable())
 
-print("=========================================")
-print("==================RESULT=================")
-command = "python finalRun.py"
-#print(command)
-os.system(command)
+# symbols_ = set()
+# list_1_f = open("constraints_1.txt", "r+")
+# list_2_f = open("constraints_2.txt", "r+")
+# print("hello")
+# list_1 = makeList(list_1_f)
+# list_2 = makeList(list_2_f)
+# if(list_1 == list_2):
+#     print("Equivalent ; no need of further calculation")
+#     exit()
 
+# outerS_1_and = makeConstraint(list_1)
+# print(outerS_1_and)
+# outerS_2_and = makeConstraint(list_2)
+# print(outerS_2_and)
+# print("===========================")
+# k = 0
+# for val in symbols_:
+#     print(val)
+#     symbol = "x"+str(k)
+#     k=k+1
+#     outerS_1_and = outerS_1_and.replace(val,symbol)
+#     outerS_2_and = outerS_2_and.replace(val,symbol)
+# print(outerS_1_and)
+# print(outerS_2_and)
+# declaration = declareSymbol(symbols_)
+# print("====================")
+# finalS_ = makeConstraintWithNot(
+#             makeConstraintWithOr(
+#                 makeConstraintWithAnd(
+#                     outerS_1_and
+#                     ,
+#                     outerS_2_and
+#                 ), 
+#                 makeConstraintWithAnd(
+#                 makeConstraintWithNot(outerS_1_and)
+#                 ,
+#                 makeConstraintWithNot(outerS_2_and)
+#                 )
+#                 )
+#                 )
+# print(finalS_)
+# f = open("finalRun.py","w")
+# f.write("import claripy\n")
+# f.write(declaration)
+# f.write("\n\np=")
+# f.write(finalS_)
+# f.write("\ns = claripy.Solver()")
+# f.write("\ns.add(p)")
+# #f.write("\nprint(s.satisfiable())")
+# f.write("\nif(s.satisfiable()==False):")
+# f.write("print(\"Equivalent\")")
+# f.write("\nelse:")
+# f.write("print(\"Not equivalent\")")
+# f.close()
+
+# print("=========================================")
+# print("==================RESULT=================")
+# command = "python finalRun.py"
+# #print(command)
+# os.system(command)
+if(solver.satisfiable()==False):
+    print("Equivalent :)")
+else:
+    print("Not equivalent :(")
+end_time = time.time()
 end = time.time()
 print("time : \n", end-start)
