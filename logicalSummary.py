@@ -21,12 +21,17 @@ def runAndfind(binaryFile):
     #state = c.factory.call_state(0x402370, ptr1, ptr2) #for SampleShip game
     cmd = claripy.BVS('cmd', c.arch.bits, explicit_name=True)
     ps = claripy.BVS('ps', c.arch.bits, explicit_name=True)
-    state = c.factory.call_state(0x4012c0, ps, cmd)#Sample_ShipGame cgc_ProcessPlace
+    #state = c.factory.call_state(0x4012c0, ps, cmd)#Sample_ShipGame cgc_ProcessPlace
     #state = c.factory.entry_state()
     #state = c.factory.call_state(0x4006aa)#for test_9 and test_10
-    #state = c.factory.call_state(0x401289)
+    state = c.factory.call_state(0x401189)#for calculator and its essences 
+    #state = c.factory.call_state(0x401289)#for calc2 and its essences 
     # state = c.factory.call_state(0x415424, cmd, ps)
-    # state.regs.rbp = claripy.BVS('rbp', c.arch.bits, explicit_name=True)
+    state.regs.rbp = claripy.BVS('rbp', c.arch.bits, explicit_name=True)
+    state.regs.rsi = claripy.BVS('rsi', c.arch.bits, explicit_name=True)
+    state.regs.rdx = claripy.BVS('rdx', c.arch.bits, explicit_name=True)
+    state.regs.rdi = claripy.BVS('rdi', c.arch.bits, explicit_name=True)
+    state.regs.xmm0lq = claripy.BVS('xmm0lq', c.arch.bits, explicit_name=True)
     # state.add_constraints(cmd == 0x12340000)
     # state.add_constraints(ps == 0x23450000)
     #state.add_constraints(ptr1 == 0x12340000)
@@ -48,7 +53,11 @@ def runAndfind(binaryFile):
     #state.add_constraints(state.regs.edi ==0x2)
     
     #state.add_constraints(state.regs.esi ==0x19)
-    #state.add_constraints(state.regs.edx ==0x3)
+    #state.add_constraints(state.regs.rdx ==0x3) #added for calculator case 1
+    state.add_constraints(claripy.Or(state.regs.rdx ==0x3, state.regs.rdx ==0x2)) #added for calculator case 2
+    #state.add_constraints(state.regs.rdi ==115) #added for calc2 case 1
+    #state.add_constraints(claripy.Or(state.regs.rdi ==115, state.regs.rdi == 94)) #added for calc2 case 2
+    #state.add_constraints(claripy.Or(state.regs.rdi ==115, state.regs.rdi == 94, state.regs.rdi == 47)) #added for calc2 case 3
     #state.add_constraints(claripy.Not(state.regs.rdi==0x0))
     #state.add_constraints(state.regs.rdi == 0x115)#added for calc2 case1
     #state.add_constraints(claripy.Or(state.regs.rdi ==0x115, state.regs.rdi ==0x5e))
