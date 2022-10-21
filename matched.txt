@@ -1,12 +1,3 @@
-<Bool mem_7fffffffffefdb8_3_32{UNINITIALIZED} <=s 0x63 && x == 0x1>
-<Bool mem_7fffffffffefdb8_3_32{UNINITIALIZED} <=s 0x63 && x == 0x1>
-=====================
-<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} <=s 0x18 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x2>
-<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} <=s 0x18 && mem_7fffffffffefdbc_4_32{UNINITIALIZED} <=s 0x32 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x2>
-=====================
-<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} <=s 0x32 && mem_7fffffffffefdbc_4_32{UNINITIALIZED} >s 0x18 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x5>
-<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} >s 0x18 && mem_7fffffffffefdbc_4_32{UNINITIALIZED} <=s 0x32 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x5>
-=====================
-<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} >s 0x32 && mem_7fffffffffefdbc_4_32{UNINITIALIZED} >s 0x18 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x3>
-<Bool mem_7fffffffffefdbc_4_32{UNINITIALIZED} >s 0x32 && mem_7fffffffffefdb8_3_32{UNINITIALIZED} >s 0x63 && x == 0x3>
+<Bool rdx[31:0] == 0x3 && x == rdi[31:0] * rsi[31:0]>
+<Bool rdx[31:0] == 0x3 && x == rdi[31:0] * rsi[31:0]>
 =====================

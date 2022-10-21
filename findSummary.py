@@ -15,9 +15,15 @@ class MyConcretizationStrategy(angr.concretization_strategies.SimConcretizationS
 
 def runAndfind(binaryFile, resultName):
     c = angr.Project(binaryFile, auto_load_libs = False)
-    state = c.factory.entry_state()
+    state = c.factory.call_state(0x401189)#for calculator and its essences
+    #state = c.factory.entry_state()
     #state = c.factory.call_state(0x400671)
     x = claripy.BVS('x', 32, explicit_name=True)
+    state.regs.rbp = claripy.BVS('rbp', c.arch.bits, explicit_name=True)
+    state.regs.rsi = claripy.BVS('rsi', c.arch.bits, explicit_name=True)
+    state.regs.rdx = claripy.BVS('rdx', c.arch.bits, explicit_name=True)
+    state.regs.rdi = claripy.BVS('rdi', c.arch.bits, explicit_name=True)
+    state.regs.xmm0lq = claripy.BVS('xmm0lq', c.arch.bits, explicit_name=True)
     state.memory.read_strategies = [MyConcretizationStrategy()]
     state.memory.write_strategies = [MyConcretizationStrategy()]
     sm = c.factory.simulation_manager(state)
