@@ -54,7 +54,7 @@ def runAndfind(binaryFile):
     
     #state.add_constraints(state.regs.esi ==0x19)
     #state.add_constraints(state.regs.rdx ==0x3) #added for calculator case 1
-    state.add_constraints(claripy.Or(state.regs.rdx ==0x3, state.regs.rdx ==0x2)) #added for calculator case 2
+    #state.add_constraints(claripy.Or(state.regs.rdx ==0x3, state.regs.rdx ==0x2)) #added for calculator case 2
     #state.add_constraints(state.regs.rdi ==115) #added for calc2 case 1
     #state.add_constraints(claripy.Or(state.regs.rdi ==115, state.regs.rdi == 94)) #added for calc2 case 2
     #state.add_constraints(claripy.Or(state.regs.rdi ==115, state.regs.rdi == 94, state.regs.rdi == 47)) #added for calc2 case 3
