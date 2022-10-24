@@ -15,7 +15,8 @@ class MyConcretizationStrategy(angr.concretization_strategies.SimConcretizationS
 
 def runAndfind(binaryFile, resultName):
     c = angr.Project(binaryFile, auto_load_libs = False)
-    state = c.factory.call_state(0x401189)#for calculator and its essences
+    #state = c.factory.call_state(0x401189)#for calculator and its essences
+    state = c.factory.call_state(0x401289)#for calc2 and its essences
     #state = c.factory.entry_state()
     #state = c.factory.call_state(0x400671)
     x = claripy.BVS('x', 32, explicit_name=True)
