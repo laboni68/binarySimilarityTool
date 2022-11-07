@@ -22,9 +22,9 @@ def runAndfind(binaryFile):
     cmd = claripy.BVS('cmd', c.arch.bits, explicit_name=True)
     ps = claripy.BVS('ps', c.arch.bits, explicit_name=True)
     #state = c.factory.call_state(0x4012c0, ps, cmd)#Sample_ShipGame cgc_ProcessPlace
-    #state = c.factory.entry_state()
+    state = c.factory.entry_state()
     #state = c.factory.call_state(0x4006aa)#for test_9 and test_10
-    state = c.factory.call_state(0x401189)#for calculator and its essences 
+    #state = c.factory.call_state(0x401169)#for calculator and its essences 
     #state = c.factory.call_state(0x401289)#for calc2 and its essences 
     # state = c.factory.call_state(0x415424, cmd, ps)
     state.regs.rbp = claripy.BVS('rbp', c.arch.bits, explicit_name=True)
@@ -76,14 +76,14 @@ def runAndfind(binaryFile):
     if(len(sm.deadended)>0):
         for i in range(len(sm.deadended)):
             path = sm.deadended[i]
-            print(path)
             print(len(path.solver.constraints))
             try:
                 m_1 = path.regs.eax
             except:
                 m_1 = path.regs.r0
             print(path.solver.constraints)
-            print(type(path.solver.constraints[0]))
+            print("rdi : " , path.regs.rdi)
+            #print(type(path.solver.constraints[0]))
             print(m_1)
             print(constraint_summary)
             constraint_and = claripy.And(True)
