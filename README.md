@@ -11,7 +11,7 @@
 1. workon angr
 2. pip install claripy (if angr can not find any module to run pip install that module will install that particular module)
 3. python runLogialSummary.py <binary1> <binary2> 
-<br /> Example : python runLogialSummary.py <calculator> <calculator.essence.case1> 
+<br /> Example : python runLogialSummary.py <calculator>  <calculator.essence.case1> 
 <br />[2nd command is one time run only, for repeated use of the tool 1st and 3rd command will suffice]
 
 **Output:** <br />
